@@ -1,0 +1,33 @@
+extract_content:
+  name: "Extract Questions and Answers"
+  description: |
+    Read and extract content from the specified question and answer files, including processing an image-based answer.
+    1. Use the FileReadTool to read the questions.md file at {questions_path}
+    2. Use the FileReadTool to read the answers.md file at {answers_path}
+    3. Use the VisionTool to analyze the image at {image_path} which contains the answer to the last question
+    4. Format all extracted content in a structured way to facilitate evaluation
+  agent: "content_reader"
+  expected_output: |
+    A structured dataset containing:
+    - All questions with their original Bloom's Taxonomy levels
+    - All corresponding student answers including the textual interpretation of the image
+    - Any additional context or metadata required for proper evaluation
+
+evaluate_answers:
+  name: "Evaluate Student Answers"
+  description: |
+    Conduct a comprehensive evaluation of the student's answers based on Bloom's Taxonomy levels.
+    1. Analyze each answer against the expected cognitive level for that question
+    2. Identify strengths, weaknesses, misconceptions, and areas for improvement
+    3. Assess the overall performance across all Bloom's Taxonomy levels
+    4. Provide a detailed feedback report with specific examples from the student's answers
+  agent: "evaluation_specialist"
+  depends_on: ["extract_content"]
+  expected_output: |
+    A comprehensive evaluation report that includes:
+    - Score or assessment for each answer
+    - Detailed feedback highlighting strengths and areas for improvement in each answer
+    - Analysis of cognitive levels demonstrated in each response
+    - Visual representation of the student's performance across all Bloom's Taxonomy levels
+    - Overall assessment on a scale of 1 to 7 and recommendations for improvement
+  output_file: "evaluation_report.md"

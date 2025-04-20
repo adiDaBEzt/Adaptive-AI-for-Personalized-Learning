@@ -1,0 +1,500 @@
+// Modified version of EducationalPlatform with navigation support
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Search,
+  Upload,
+  Book,
+  Clock,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+
+// Define prop types
+interface EducationalPlatformProps {
+  onCourseSelect?: (courseId: string) => void;
+}
+
+const EducationalPlatform: React.FC<EducationalPlatformProps> = ({
+  onCourseSelect,
+}) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const userName = "Alex"; // This would come from your user authentication
+  const navigate = useNavigate();
+
+  // Sample recent modules - these would come from your backend
+  const recentModules = [
+    {
+      id: "embedded-systems",
+      title: "Embedded Systems",
+      chapter: "5. Types of Microprocessors",
+      duration: "7m",
+      progress: 65,
+      component: "contentemb"
+    },
+    {
+      id: "deep-learning",
+      title: "Operating Systems",
+      chapter: "1. Introduction to Operating Systems",
+      duration: "16m",
+      progress: 30,
+      component: "content"
+    },
+    {
+      id: "data-structures",
+      title: "Data Structures and Algorithms",
+      chapter: "4. Doubly Linked Lists",
+      duration: "4m",
+      progress: 10,
+      component: "contentdsa"
+    },
+    {
+      id: "python-data",
+      title: "Advanced Python for Data Science",
+      chapter: "12. Pandas Data Manipulation",
+      duration: "22m",
+      progress: 45,
+      component: "content"
+    },
+    {
+      id: "tensorflow",
+      title: "Introduction to TensorFlow",
+      chapter: "5. Neural Network Architectures",
+      duration: "18m",
+      progress: 75,
+      component: "content"
+    },
+  ];
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Handle file upload logic
+    if (event.target.files) {
+      console.log("Files uploaded:", event.target.files);
+    }
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Searching for:", searchQuery);
+    // Implement search functionality
+  };
+
+  // Handle course selection and navigation
+  const handleCourseClick = (courseId: string) => {
+    const course = recentModules.find(module => module.id === courseId);
+    
+    if (onCourseSelect) {
+      onCourseSelect(courseId);
+    }
+    
+    // Navigate to the appropriate content page based on the course
+    navigate(`/content/${courseId}`);
+  };
+
+  // Handle assessment navigation
+  const handleAssessmentClick = () => {
+    navigate("/assessment");
+  };
+
+  return (
+    <div
+      style={{
+        fontFamily: "Arial, sans-serif",
+        maxWidth: "1200px",
+        margin: "0 auto",
+      }}
+    >
+      {/* Welcome Section */}
+      <section style={{ padding: "24px 20px" }}>
+        <h2
+          style={{
+            fontSize: "28px",
+            fontWeight: "bold",
+            color: "#6366f1",
+            textAlign: "center",
+            marginBottom: "24px",
+          }}
+        >
+          Hey {userName}, what do you want to learn today?
+        </h2>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "16px",
+            maxWidth: "800px",
+            margin: "0 auto",
+          }}
+        >
+          {/* Search Bar */}
+          <div style={{ width: "100%" }}>
+            <form onSubmit={handleSearch} style={{ position: "relative" }}>
+              <input
+                type="text"
+                placeholder="Search for topics, modules, or concepts..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "10px 16px 10px 40px",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "8px",
+                  fontSize: "14px",
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  position: "absolute",
+                  left: "12px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  color: "#6b7280",
+                  cursor: "pointer",
+                }}
+              >
+                <Search size={20} />
+              </button>
+            </form>
+          </div>
+
+          {/* Upload Section - Now centered and larger */}
+          <div
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+          >
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "12px 24px",
+                border: "2px dashed #d1d5db",
+                borderRadius: "8px",
+                cursor: "pointer",
+                color: "#4b5563",
+                width: "80%",
+                maxWidth: "400px",
+              }}
+            >
+              <Upload
+                size={20}
+                style={{ marginRight: "12px", color: "#6366f1" }}
+              />
+              <span style={{ fontSize: "16px" }}>Upload materials</span>
+              <input
+                type="file"
+                multiple
+                onChange={handleFileUpload}
+                style={{ display: "none" }}
+              />
+            </label>
+          </div>
+        </div>
+      </section>
+
+      {/* Continue Learning Section - Changed to "You were learning" */}
+      <section style={{ padding: "0 20px 24px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "16px",
+          }}
+        >
+          <h3
+            style={{ fontSize: "22px", fontWeight: "bold", color: "#1f2937" }}
+          >
+            You were learning
+          </h3>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/courses");
+              }}
+              style={{
+                color: "#6366f1",
+                textDecoration: "none",
+                fontWeight: "bold",
+                marginRight: "16px",
+              }}
+            >
+              My learning
+            </a>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button
+                style={{
+                  background: "#f3f4f6",
+                  color: "#4b5563",
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                style={{
+                  background: "#f3f4f6",
+                  color: "#4b5563",
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "16px",
+            overflowX: "auto",
+            paddingBottom: "16px",
+          }}
+        >
+          {recentModules.map((module) => (
+            <div
+              key={module.id}
+              style={{
+                flex: "0 0 auto",
+                width: "280px",
+                background: "white",
+                borderRadius: "8px",
+                border: "1px solid #e5e7eb",
+                overflow: "hidden",
+                cursor: "pointer",
+              }}
+              onClick={() => handleCourseClick(module.id)}
+            >
+              <div style={{ position: "relative" }}>
+                <div
+                  style={{
+                    height: "160px",
+                    background: "#f3f4f6",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {/* Course thumbnail placeholder */}
+                  <div style={{ color: "#9ca3af", fontSize: "14px" }}>
+                    Course Thumbnail
+                  </div>
+
+                  {/* Play button overlay */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: "0",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "50%",
+                        background: "#6366f1",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "white",
+                      }}
+                    >
+                      <ArrowRight size={24} />
+                    </div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "0",
+                      left: "0",
+                      right: "0",
+                      height: "4px",
+                      background: "#e5e7eb",
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: "100%",
+                        background: "#6366f1",
+                        width: `${module.progress}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div style={{ padding: "16px" }}>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "#6b7280",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {module.title}
+                  </p>
+                  <h4
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      color: "#1f2937",
+                      marginBottom: "12px",
+                      height: "40px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {module.chapter}
+                  </h4>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "12px",
+                      color: "#6b7280",
+                    }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center" }}>
+                      <Clock size={14} style={{ marginRight: "4px" }} />
+                      {module.duration}
+                    </span>
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: "16px",
+                      }}
+                    >
+                      <Book size={14} style={{ marginRight: "4px" }} />
+                      Lecture
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick Assessment button */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <button
+            onClick={handleAssessmentClick}
+            style={{
+              background: "#6366f1",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              border: "none",
+              fontWeight: "bold",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            Take an Assessment
+          </button>
+        </div>
+      </section>
+
+      {/* Recent Uploads Section */}
+      <section style={{ padding: "0 20px 24px" }}>
+        <h3
+          style={{
+            fontSize: "22px",
+            fontWeight: "bold",
+            color: "#1f2937",
+            marginBottom: "16px",
+          }}
+        >
+          Recent Uploads
+        </h3>
+
+        <div
+          style={{
+            background: "white",
+            borderRadius: "8px",
+            border: "1px solid #e5e7eb",
+            padding: "24px",
+          }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              padding: "32px 0",
+            }}
+          >
+            <div
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "50%",
+                background: "#ede9fe",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 16px",
+              }}
+            >
+              <Upload size={24} style={{ color: "#6366f1" }} />
+            </div>
+            <p
+              style={{
+                color: "#6b7280",
+                marginBottom: "16px",
+              }}
+            >
+              No recent uploads
+            </p>
+            <button
+              style={{
+                background: "#6366f1",
+                color: "white",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                border: "none",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              Upload Materials
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default EducationalPlatform;

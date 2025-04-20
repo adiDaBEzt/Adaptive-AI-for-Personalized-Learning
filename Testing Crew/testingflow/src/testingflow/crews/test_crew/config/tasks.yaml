@@ -1,0 +1,14 @@
+analyze_topics:
+  name: "Analyze Topics for Bloom's Taxonomy Levels"
+  description: "Analyze the report.md file to identify topics where all Bloom's Taxonomy levels can be tested."
+  agent: topic_analyzer
+  expected_output: "A structured list of topics from the report.md file which can be asked in an Engineering Exam covering all of the Bloom's Taxonomy Levels"
+
+
+generate_questions:
+  name: "Generate Well-Structured Questions"
+  description: "Frame 5-6 well-structured questions based on the output of task analyze_topics. Strictly stick to the topics provided by analyze_topics task."
+  agent: question_developer
+  depends_on: ["analyze_topics"]
+  expected_output: "A well formatted question paper with 5-6 questions of various kinds such as MCQs, Descriptive, Diagram based etc (atleast one from each type) based on the topics identified in the analyze_topics task with atleast 1 question with a diagram which can be generated using the tool assigned to you, make sure to pass your prompt as a string and the tool will send you the image url. Replace the placeholder for the image with ![alt text](the URL you got) so that you can insert the image as an image into the .md file. Also mention the bloom's taxonomy level for each question. Make sure to align headings, Subheadings, images etc into the center, and divide it into sections such as section 1 for MCQ, Section 2 for Descriptive and section 3 for Diagram based questions. Also use proper margins. Make sure to put the options for MCQ questions in a new line rather than the same line as the question"
+  output_file: "questions.md"

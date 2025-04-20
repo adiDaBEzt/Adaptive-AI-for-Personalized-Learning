@@ -1,0 +1,165 @@
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
+
+// Import your components
+import EducationalPlatform from "./components/home";
+import AssessmentPage from "./components/assessments";
+import LearningContentPage from "./components/content";
+import EvaluationReportPage from "./components/report";
+
+// Simple header component with navigation
+const Header = () => {
+  const navigate = useNavigate();
+
+  return (
+    <header
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "12px 20px",
+        borderBottom: "1px solid #e5e7eb",
+        background: "white",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          color: "#6366f1",
+          cursor: "pointer",
+        }}
+        onClick={() => navigate("/")}
+      >
+        LearnHub
+      </div>
+      <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/");
+          }}
+          style={{ color: "#6366f1", textDecoration: "none" }}
+        >
+          Home
+        </a>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            // Navigate to the content page for the first course by default
+            navigate("/content/embedded-systems");
+          }}
+          style={{ color: "#6366f1", textDecoration: "none" }}
+        >
+          My Courses
+        </a>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/assessment");
+          }}
+          style={{ color: "#6366f1", textDecoration: "none" }}
+        >
+          Assessments
+        </a>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/reports");
+          }}
+          style={{ color: "#6366f1", textDecoration: "none" }}
+        >
+          Reports
+        </a>
+        <div
+          style={{
+            background: "#6366f1",
+            color: "white",
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: "bold",
+          }}
+        >
+          A
+        </div>
+      </div>
+    </header>
+  );
+};
+
+// Main App component with routing
+const App = () => {
+  // Sample state to store selected course/module
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+
+  // Redirect to content page with the selected course
+  const handleCourseSelect = (courseId: string) => {
+    setSelectedCourse(courseId);
+    // This function would be passed to EducationalPlatform
+  };
+
+  return (
+    <Router>
+      <div style={{ fontFamily: "Arial, sans-serif" }}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Header />
+                <EducationalPlatform onCourseSelect={handleCourseSelect} />
+              </>
+            }
+          />
+          <Route
+            path="/assessment"
+            element={
+              <>
+                <Header />
+                <AssessmentPage />
+              </>
+            }
+          />
+          <Route
+            path="/content/:courseId"
+            element={
+              <>
+                <Header />
+                <LearningContentPage />
+              </>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <>
+                <Header />
+                <EvaluationReportPage />
+              </>
+            }
+          />
+          <Route
+            path="/courses"
+            element={<Navigate to="/content/embedded-systems" replace />}
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+};
+
+export default App;

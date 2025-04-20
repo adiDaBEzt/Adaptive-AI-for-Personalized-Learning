@@ -1,0 +1,107 @@
+Section 1: Multiple Choice Questions (MCQ)
+
+    c) Unlimited processing power
+
+    a) Reduced Instruction Set Computing
+
+Section 2: Descriptive Questions
+
+    Three Major Differences Between RISC and CISC:
+
+    Instruction Set Size:
+
+        RISC: Smaller set of instructions.
+
+        CISC: Larger, more complex instruction set.
+
+    Execution Time:
+
+        RISC: Executes instructions in one clock cycle (pipelining friendly).
+
+        CISC: Instructions may take multiple cycles.
+
+    Hardware Complexity:
+
+        RISC: Simpler hardware, easier to design.
+
+        CISC: More complex hardware due to multi-cycle instructions.
+
+Impact:
+
+    RISC is suitable for applications requiring speed and efficiency (e.g., smartphones).
+
+    CISC is often used where complex tasks must be handled in fewer lines of assembly (e.g., desktop CPUs).
+
+    Importance of Power Consumption in Embedded Systems:
+
+    Why It Matters:
+
+        Many embedded systems run on batteries (e.g., wearables, sensors).
+
+        Lower power = longer operational time and reduced heat.
+
+    Techniques to Minimize Power:
+
+        Dynamic Voltage and Frequency Scaling (DVFS): Reduces power by lowering frequency/voltage when full performance isn't needed.
+
+        Sleep Modes: Components are powered down when idle.
+
+    Trade-offs in Choosing I/O Interfaces:
+
+    SPI (Serial Peripheral Interface):
+
+        Fast, full-duplex, supports multiple slaves.
+
+        More pins needed, complex wiring.
+
+    I2C (Inter-Integrated Circuit):
+
+        Fewer wires (2 lines), supports multiple devices.
+
+        Slower than SPI, more overhead due to addressing.
+
+    UART (Universal Asynchronous Receiver-Transmitter):
+
+        Simple, great for point-to-point communication.
+
+        Asynchronous and slower than SPI.
+
+Trade-offs:
+
+    Choose SPI for speed, I2C for simplicity with multiple devices, and UART for basic serial communication.
+
+Section 3: Diagram-Based Question
+
+    Boolean Function:
+    Y=(A∧B)∨(¬C)Y=(A∧B)∨(¬C)
+
+Logic Diagram Description:
+
+    Inputs: A, B, C
+
+    Use:
+
+        AND gate for A and B.
+
+        NOT gate for C.
+
+        OR gate to combine the outputs.
+
+Truth Table:
+A	B	C	A AND B	NOT C	Y = (A AND B) OR (NOT C)
+0	0	0	0	1	1
+0	0	1	0	0	0
+0	1	0	0	1	1
+0	1	1	0	0	0
+1	0	0	0	1	1
+1	0	1	0	0	0
+1	1	0	1	1	1
+1	1	1	1	0	1
+
+Operation Explanation:
+
+    When A and B are both 1, AND gate outputs 1.
+
+    When C is 0, NOT gate outputs 1.
+
+    OR gate outputs 1 if either input is 1.

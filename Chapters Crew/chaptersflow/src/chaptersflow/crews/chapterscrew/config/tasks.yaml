@@ -1,0 +1,36 @@
+analyze_chapters:
+  name: "Analyze Syllabus and Create Chapter Structure"
+  description: |
+    Analyze the provided syllabus and create a logical chapter structure for the specified module.
+    Requirements:
+    1. Follow a clear learning progression
+    2. Build upon previous knowledge
+    3. Be organized in a way that maximizes student understanding
+    4. Include clear chapter titles and brief outlines
+  agent: "syllabus_analyzer"
+  expected_output: |
+    A structured list of chapters with:
+    - Chapter titles
+    - Learning objectives
+    - Topic outlines
+    - Prerequisites
+    - Estimated duration
+
+develop_content:
+  name: "Develop Detailed Chapter Content"
+  description: |
+    Using the chapter structure provided, create detailed descriptions for each chapter that:
+    1. Explain the main concepts and learning objectives
+    2. Highlight connections between chapters
+    3. Show how each chapter builds upon previous knowledge
+    4. Include key topics and subtopics
+    5. Maintain a cohesive narrative throughout the content
+  agent: "content_developer"
+  depends_on: ["analyze_chapters"]
+  expected_output: |
+    Detailed chapter descriptions including:
+    - Comprehensive explanations of concepts
+    - Clear connections between chapters
+    - Learning progression paths
+    - Key topics and subtopics
+    - Practical examples and applications

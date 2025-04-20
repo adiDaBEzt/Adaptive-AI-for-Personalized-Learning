@@ -1,0 +1,60 @@
+extract_chapter:
+  name: "Extract Relevant Chapter"
+  description: |
+    Identify and extract the required chapter {chapter_name} from the report located at:
+    C:\Users\User\Desktop\Chapters Crew\chaptersflow\src\chaptersflow\tools\report.md
+    Requirements:
+    1. Detect chapter headers and extract their contents for {chapter_name} and pass it on to the next task/agent. DO NOT RUN AGAIN. Extract all information in one pass.
+  agent: "rag_expert"
+  expected_output: |
+    Extracted chapter content that includes:
+    - Chapter title
+    - Chapter description
+    - Key points and subtopics
+  priority: 1
+
+search_resources:
+  name: "Search for Additional Learning Resources"
+  description: |
+    You have been tasked to search for relevant content for {chapter_name}. Think what are the necessary topics that have to be searched and retreive data, important links and youtube videos. Ensure you cover the entire chapter content in 3-4 searches and do not run again after that.
+    The main goal is to get content data for the topics that can be used to make a chapter in an engineering texboook.
+
+  agent: "web_researcher"
+  depends_on: ["extract_chapter"]
+  expected_output: |
+    The data you have interpolated from the web searches along with any other information such as website and youtube video links.
+  priority: 2
+
+generate_content:
+  name: "Generate Educational Content"
+  description: |
+    From the given content generated, make a chapter for a textbook for an engineering student.
+    - It should be well formatted, about 3-4 pages long.
+    - Generate images when necessary for diagrams and illustrations using imgtool.dallee. You can only generate one image per tool use.
+    - Replace the placeholder for the image with ![alt text](the URL you got) so that you can insert the image as an image into the .md file.
+    - After generating all images, you MUST produce the complete markdown content for the chapter with all sections.
+    - Make sure to include the outputs from search_resources task.
+    - DO NOT end your work with just a summary - the full content is required.
+    - IMPORTANT: Each subtopic should have a minimum of 4-5 substantial paragraphs of detailed explanation.
+    - For each section, provide at least 500 words of detailed technical information.
+    - Include detailed technical specifications, practical examples, and comprehensive explanations for each component discussed.
+  agent: "content_creator"
+  depends_on: ["extract_chapter", "search_resources"]
+  expected_output: |
+    A well formatted .md file using HTML tags with properly aligned headings, subheadings, images and text:
+    - The content should be compulsorily minimum 6000 words.
+    - Each major section must have at least 1500 words of detailed content.
+    - Each subsection must have at least 4-5 paragraphs of technical explanation.
+    - Text-based explanations from the content and make it as detailed as possible with multiple paragraphs per topic.
+    - Embedded images or links to diagrams
+    - Add images using imgtool.dalle to make the content more engaging.
+    - Replace the placeholder for the image with ![alt text](the URL you got) so that you can insert the image as an image into the .md file.
+    - References to additional resources for deeper understanding
+    - Make sure to include all outputs from other tasks which are passed to you.
+    - Minimum of 5-6 pages and should look like a chapter from an Engineering textbook.
+    - You have to add all the content to the md file yourself.
+    - DO NOT just return a summary line - the complete content is required.
+    - Include technical specifications, practical examples, code snippets where appropriate, and real-world applications.
+  output_file: "content.md"
+  priority: 3
+  allow_delegation: true
